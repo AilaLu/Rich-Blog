@@ -17,14 +17,14 @@ class ArticlesController < ApplicationController
     end
   end
   def show
-    @article = Article.find(params[:id])
+    @article = id
   end
   
   def edit
-    @article = Article.find(params[:id])
+    @article = id
   end
   def update
-    @article = Article.find(params[:id])
+    @article = id
     if @article.update(article_params)
       redirect_to blogs_path, notice: "已編輯"
     else
@@ -33,11 +33,15 @@ class ArticlesController < ApplicationController
     end
   end
   def destroy
-    @article = Article.find(params[:id])
+    @article = id
     @article.delete
     redirect_to blogs_path, notice: "已刪除"
   end
   
+  private
+  def id
+    Article.find(params[:id])
+  end
   
   
  

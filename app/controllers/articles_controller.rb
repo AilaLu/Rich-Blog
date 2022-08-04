@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  before_action :require_login, except:[:show]
 
   def index
     
@@ -8,7 +9,8 @@ class ArticlesController < ApplicationController
   end
   
   def create
-    @article = Article.new(article_params)
+    @article = current_user.articles.new(article_params)
+
     if @article.save
       redirect_to blogs_path, notice: "已新增"
     else
@@ -21,7 +23,9 @@ class ArticlesController < ApplicationController
   end
   
   def edit
-    @article = id
+    if not current_user.own?(@article) 
+      redirect_to "/", notice: "權限不足"
+    end
   end
   def update
     @article = id
@@ -49,4 +53,9 @@ class ArticlesController < ApplicationController
   def article_params
     params.require(:article).permit(:title, :content)
   end
+
+
+def find_user_article
+  @article = current_user.articles.find(params[:id])
+end
 end

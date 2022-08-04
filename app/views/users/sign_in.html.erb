@@ -1,0 +1,13 @@
+<h1>會員登入</h1>
+
+<%= form_with model: @user, url: sessions_path do |form|%>
+<div>
+<%= form.label :email%>
+<%= form.email_field :email%>
+</div>
+<div>
+<%= form.label :password%>
+<%= form.password_field :password%>
+</div>
+<%= form.submit "sign in"%>
+<%end%>
